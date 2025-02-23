@@ -4,6 +4,15 @@ import math
 
 
 class handDetector():
+    def isFist(self):
+        """Checks if all fingers are down (except the thumb slightly bent)."""
+        fingers = self.fingersUp()
+        return fingers == [0, 0, 0, 0, 0]  # All fingers down → Fist detected
+
+    def isWaving(self, prev_x, curr_x, threshold=50):
+        """Checks if hand moves left-right rapidly, indicating a wave gesture."""
+        return abs(curr_x - prev_x) > threshold
+    
     def __init__(self, mode=False, maxHands=1, modelComplexity=1, detectionCon=0.5, trackCon=0.5):
         self.mode = mode
         self.maxHands = maxHands
@@ -87,3 +96,4 @@ class handDetector():
 
         len_line = math.hypot(x2 - x1, y2 - y1)
         return len_line, img, [x1, y1, x2, y2, cx, cy]
+    
